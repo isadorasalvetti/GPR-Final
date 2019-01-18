@@ -13,7 +13,7 @@ Packages needed:
 
 
 from scipy.spatial import distance
-from Ex1.Plot import *
+from Plot import *
 PI = 3.14159265359
 
 
