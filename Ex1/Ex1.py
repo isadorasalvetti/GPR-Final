@@ -69,8 +69,11 @@ def localApproximation(xy, height, adist):
     b = np.matrix(tmp_B).T
     A = np.matrix(tmp_A)
     fit = (A.T * A).I * A.T * b
+    errors = b - A * fit
+    residual = np.linalg.norm(errors)
+
     # print(fit)
-    return fit.item(0), fit.item(1), fit.item(2)
+    return [(fit.item(0), fit.item(1), fit.item(2)), residual]
 
 
 def getOrthogonalProjection(points, plane):
@@ -173,7 +176,12 @@ for p in points:
 # 3) Compute weighted local approximation on height
 heightLineAprox = localApproximation(planeCoordinates, heights, avrgDistance)
 # r = q + p(0)
-finalPoint = projRefPoint + heightLineAprox[2]*pn
+finalPoint = projRefPoint + heightLineAprox[0][2]*pn
+error = heightLineAprox[1]
+
+# Print error:
+print(error)
+
 # Display final point
 plotSolution(points, refPoint, finalPoint)
 
